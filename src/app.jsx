@@ -1,9 +1,22 @@
 import { useEffect, useState } from 'react';
-import './App.css';
+import styles from './App.module.css';
+import SearchHeader from './components/search_header/search_header';
 import VideoList from './components/video_list/video_list';
 
 function App() {
   const [videos, setVideos] = useState([]);
+  const search = (query) => {
+    const requestOptions = {
+      method: 'GET',
+      redirect: 'follow'
+    };
+    
+    fetch(`https://www.googleapis.com/youtube/v3/search/?part=snippet&maxResults=30&q=${query}&type=video&key=AIzaSyDNG_hfL-YnQr3sh-KrE0yRiVEdJzIgMP4`, requestOptions)
+      .then(response => response.json())
+      .then(result => result.items.map(item => ({...item, id: item.id.videoId})))
+      .then(items => setVideos(items))
+      .catch(error => console.log('error', error));
+  };
 
   useEffect(() => {
     const requestOptions = {
@@ -11,12 +24,15 @@ function App() {
       redirect: 'follow',
     };
     
-    fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=25&key=AIzaSyDNG_hfL-YnQr3sh-KrE0yRiVEdJzIgMP4", requestOptions)
+    fetch("https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=30&key=AIzaSyDNG_hfL-YnQr3sh-KrE0yRiVEdJzIgMP4", requestOptions)
       .then(response => response.json())
       .then(result => setVideos(result.items))
       .catch(error => console.log('error', error));
   }, []);
-  return <VideoList videos={videos} />
+  return <div className={styles.app}>
+    <SearchHeader onSearch={search}/>
+    <VideoList videos={videos} />
+ </div>
 }
 
 export default App;
