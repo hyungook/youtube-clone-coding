@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
+import SearchHeader from './components/search_header/search_header';
 import VideoList from './components/video_list/video_list';
-// import './app.css';
+import styles from './app.module.css';
 
 function App() {
   // 데이터를 받아올 state 설정
@@ -20,7 +21,12 @@ function App() {
   }, []);
 
 
-  return <VideoList videos={videos} />;
+  return (
+    <div className={styles.app}>
+      <SearchHeader />
+      <VideoList videos={videos} />;
+    </div>
+  )
 }
 
 export default App;
