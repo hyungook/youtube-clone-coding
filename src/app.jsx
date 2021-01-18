@@ -14,11 +14,15 @@ function App({youtube}) {
     setSelectedVideo(video);
   };
 
-
   const search = query => {
+    setSelectedVideo(null);
+    
     youtube
       .search(query) //
-      .then(videos => setVideos(videos));
+      .then(videos => {
+        setVideos(videos);
+        // setSelectedVideo(null);
+      });
   };
 
   // 데이터를 마운트 되었거나, 업데이트가 될 때 사용할 수 있는 콜백을 등록 가능  // useEffect()

@@ -4,9 +4,8 @@ class Youtube {
         this.getRequestOptions = {
             method: 'GET',
             redirect: 'follow'
-          };
+        };
     }
-
     async mostPopular() {
         const response = await fetch(`https://www.googleapis.com/youtube/v3/videos?part=snippet&chart=mostPopular&maxResults=30&key=${this.key}`, this.getRequestOptions);
         const result = await response.json();
