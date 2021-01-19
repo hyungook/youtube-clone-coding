@@ -17,6 +17,6 @@ const VideoItem = memo(
         </div>
     </li>
     )}
-    );
+);
 
 export default VideoItem;
